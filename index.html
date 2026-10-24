@@ -1,0 +1,48 @@
+<!doctype html>
+<!--
+  The games' page: every game in the README's Games table as a tile, played in the page itself. It is published at the top
+  of the hub (tools/publish_site.sh), whose folders are every game's page, the same origin, so a game plays in a frame
+  here. The table is read from main's README.md each visit (site.js), so the page
+  shows what the table says without being published again; only a change to this folder needs that.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>N64 Hub: N64 games in the browser</title>
+<link rel="stylesheet" href="site.css">
+<!-- A game in a frame gets SharedArrayBuffer only if this page is cross-origin isolated too. -->
+<script src="coi_serviceworker.js"></script>
+</head>
+<body>
+<header>
+  <h1><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>N64 Hub</h1>
+  <p class="tagline">N64 games in the browser, recompiled to run natively on WebGPU.</p>
+  <p>Built on <a href="https://github.com/N64Recomp/N64Recomp">N64Recomp</a>. Most of the recomps are other people's,
+    brought to the browser here; each game says whose. It is not endorsed by N64Recomp's or the recomps' authors.
+    Load your own ROM: the pages hold none.</p>
+  <!-- Shown in Firefox on built-in graphics only (site.js): there its compositor holds every game to 30-45. -->
+  <p id="firefox-note" class="warning" hidden>Firefox plays these games slower on built-in graphics like yours. If a
+    game stutters, play it in Chrome.</p>
+  <!-- Shown in Firefox on a phone or tablet instead (site.js): no game plays there, so its tiles start nothing. -->
+  <p id="phone-firefox-note" class="warning stop" hidden><strong>Firefox on a phone can't play these games.</strong>
+    Its WebGPU doesn't run them, so they won't start here. Open this page in Chrome to play.</p>
+</header>
+<main>
+  <div id="grid" class="grid" aria-live="polite"><p class="note">Loading the games…</p></div>
+</main>
+<footer>
+  <p>Almost all of it is written with AI (Claude).
+    <a class="source" href="https://github.com/n64hub/N64Recomp-browser">Source and how it works</a></p>
+</footer>
+<div id="player" class="player" hidden>
+  <div class="controls">
+    <button id="player-full" type="button" title="Fullscreen" aria-label="Fullscreen">⛶</button>
+    <button id="player-close" type="button" title="Back to the games" aria-label="Close">✕</button>
+  </div>
+  <iframe id="player-frame" title="Game" allow="fullscreen; gamepad; autoplay; cross-origin-isolated"></iframe>
+  <button id="player-turn" type="button">Tap to play in landscape.</button>
+</div>
+<script src="site.js"></script>
+</body>
+</html>
