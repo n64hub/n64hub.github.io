@@ -1,0 +1,80 @@
+<!doctype html>
+<!--
+  The games' page: every game in the README's Games table as a tile, played in the page itself. It is published at the top
+  of the hub (tools/publish_site.sh), whose folders are every game's page, the same origin, so a game plays in a frame
+  here. The table is read from main's README.md each visit (site.js), so the page
+  shows what the table says without being published again; only a change to this folder needs that.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>N64 Hub: N64 games in the browser</title>
+<!-- The top bar's mark. A game's page links none, so the browser asks the origin for /favicon.ico, the same mark. -->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="site.css">
+<!-- A game in a frame gets SharedArrayBuffer only if this page is cross-origin isolated too. -->
+<script src="coi_serviceworker.js"></script>
+</head>
+<body>
+<!-- The name, and the account at the right: sign-in for saves kept in the player's Google Drive, shown once the hub has an
+     OAuth client (site.js). -->
+<nav class="topbar">
+  <h1><a href="./"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>N64 Hub</a></h1>
+  <div id="account" hidden></div>
+</nav>
+<header>
+  <p class="tagline">N64 games in the browser, recompiled to run natively with WebAssembly and WebGPU.</p>
+  <p>Built on <a href="https://github.com/N64Recomp/N64Recomp">N64Recomp</a>, mostly from other people's recomps, and not
+    endorsed by their authors. Bring your own ROM.</p>
+  <!-- Shown in Firefox on built-in graphics only (site.js): there its compositor holds every game to 30-45. -->
+  <p id="firefox-note" class="warning" hidden>Firefox plays these games slower on built-in graphics like yours. If a
+    game stutters, play it in Chrome.</p>
+  <!-- Shown in Firefox on a phone or tablet instead (site.js): no game plays there, so its tiles start nothing. -->
+  <p id="phone-firefox-note" class="warning stop" hidden><strong>Firefox on a phone can't play these games.</strong>
+    Its WebGPU doesn't run them, so they won't start here. Open this page in Chrome to play.</p>
+</header>
+<main>
+  <!-- The first few of news.html's entries (site.js); hidden until they are read. -->
+  <section id="news" class="news-box" hidden>
+    <div class="head"><h2>What's new</h2><a href="news.html">All news</a></div>
+    <ol class="news"></ol>
+  </section>
+  <div id="grid" class="grid" aria-live="polite"><p class="note">Loading the games…</p></div>
+</main>
+<footer>
+  <p>Almost all of it is written with AI (Claude).
+    <a class="source" href="https://github.com/n64hub/N64Recomp-browser">Source and how it works</a> ·
+    <a class="source" href="privacy.html">Privacy</a></p>
+</footer>
+<div id="player" class="player" hidden>
+  <div class="controls">
+    <button id="player-full" type="button" title="Fullscreen" aria-label="Fullscreen">⛶</button>
+    <button id="player-close" type="button" title="Back to the games" aria-label="Close">✕</button>
+  </div>
+  <iframe id="player-frame" title="Game" allow="fullscreen; gamepad; autoplay; cross-origin-isolated"></iframe>
+  <button id="player-turn" type="button">Tap to play in landscape.</button>
+</div>
+<!-- At a sign-in where this browser and the Drive hold a game's saves differently: whose to keep (site.js). -->
+<dialog id="save-choice" class="sheet">
+  <h2>Which saves should we keep?</h2>
+  <p class="lead"></p>
+  <div class="choices"></div>
+  <div class="foot">
+    <small>The saves you don't pick aren't deleted. They stay in your Drive under <i>Earlier saves</i>, and you can switch
+      back to them later.</small>
+    <span><button type="button">Cancel and sign out</button> <button type="button" class="primary">Keep these</button></span>
+  </div>
+</dialog>
+<!-- Manage saves, from the account's menu: each game's saves in the Drive and the earlier ones it kept (site.js). -->
+<dialog id="manage-saves" class="sheet">
+  <h2>Your saves in Google Drive</h2>
+  <p class="lead">Each game's save, and the earlier saves your Drive kept when one was replaced. Close a game wherever it
+    runs before you use an earlier save, or its next save takes over again.</p>
+  <div class="choices"></div>
+  <div class="foot"><span></span><button type="button">Close</button></div>
+</dialog>
+<script src="save_sync.js"></script>
+<script src="site.js"></script>
+</body>
+</html>
