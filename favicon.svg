@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- The top bar's mark (site.css .mark): the console's four colours, turned on a corner. favicon.ico is this, drawn
+       at 16, 32 and 48 px, for the pages that link no icon (a game's) and browsers that ask for /favicon.ico. -->
+  <g transform="rotate(45 16 16)">
+    <rect x="5" y="5" width="10" height="10" rx="3" fill="#e4312b"/>
+    <rect x="17" y="5" width="10" height="10" rx="3" fill="#f6c400"/>
+    <rect x="5" y="17" width="10" height="10" rx="3" fill="#009e49"/>
+    <rect x="17" y="17" width="10" height="10" rx="3" fill="#1d6fe0"/>
+  </g>
+</svg>
